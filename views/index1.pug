@@ -1,0 +1,41 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Weather Check
+  // Fonts
+  link(rel='preconnect' href='https://fonts.googleapis.com')
+  link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+  link(href='https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap' rel='stylesheet')
+  // FA Icon
+  link(rel='stylesheet' href='https://use.fontawesome.com/releases/v5.15.4/css/all.css' integrity='sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm' crossorigin='anonymous')
+  // Favicon
+  link(rel='icon' href='image/favicon.ico' type='image/x-icon')
+  // BS Style
+  link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css')
+  // Custom CSS
+  link(rel='stylesheet' href='css/styles.css')
+  style.
+    #main {
+    padding: 2% 5%;
+    }
+.container-fluid
+  #main.shadow-drop-center
+    .button-back-place
+      form(action='/' method='get')
+        button#goback.btn.btn-warning.btn-border-radius(type='submit')
+          i.fas.fa-angle-left
+    h2 #{locName}
+    p #{desc}
+    p Temperature : #{temperature}&#x2103;
+    p Pressure : #{pressure}Pa;
+    p Humidity : #{humidity};
+
+    img#weatherImage(src='http://openweathermap.org/img/wn/10d@2x.png' alt='weather-icon')
+  #footer
+    p &copy; Kevin Zamzami 2021. All Rights Reserved.
+// BS Script
+script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js' integrity='sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ' crossorigin='anonymous')
+// My Script
+script(src='js/index2.js')
