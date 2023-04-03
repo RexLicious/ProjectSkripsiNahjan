@@ -64,49 +64,49 @@ app.post("/", async function (request, response) {
     }
 
 
-    
+
     async function fetchNewsData() {
-    return new Promise((resolve, reject) => {
-        https.get(options, async function (res2) {
-            statusCode = res2.statusCode;
-            var objectDataNewsNull = {
-                news_title: "Not Found",
-                news_publish_date: "Not Found",
-                news_link: "Not Found",
-                news_content: "Not Found",
-            }
-            var rawData = '';
-            res2.on("data", function (chunk) {
-              rawData += chunk;
-            });
-            res2.on('end', () => {
-              try {
-                var newsData = JSON.parse(rawData);
-                if (newsData.articles && newsData.articles.length > 0) {
-                  var getRandomIndexofArticle = newsData.articles[0];
-                  var title = getRandomIndexofArticle.title || "Not Found";
-                  var publishDate = getRandomIndexofArticle.publishedAt || "Not Found";
-                  var link = getRandomIndexofArticle.url || "Not Found";
-                  var content = getRandomIndexofArticle.content || "Not Found";
-                  objectDataNews = {
-                    news_title: title,
-                    news_publish_date: publishDate,
-                    news_link: link,
-                    news_content: content,
-                  };
-                } else {
-                  objectDataNews = objectDataNewsNull;
+        return new Promise((resolve, reject) => {
+            https.get(options, async function (res2) {
+                statusCode = res2.statusCode;
+                var objectDataNewsNull = {
+                    news_title: "Not Found",
+                    news_publish_date: "Not Found",
+                    news_link: "Not Found",
+                    news_content: "Not Found",
                 }
-                resolve(objectDataNews);
-              } catch (error) {
-                console.error(error);
-                objectDataNews = objectDataNewsNull;
-                resolve(objectDataNews);
-              }
+                var rawData = '';
+                res2.on("data", function (chunk) {
+                    rawData += chunk;
+                });
+                res2.on('end', () => {
+                    try {
+                        var newsData = JSON.parse(rawData);
+                        if (newsData.articles && newsData.articles.length > 0) {
+                            var getRandomIndexofArticle = newsData.articles[0];
+                            var title = getRandomIndexofArticle.title || "Not Found";
+                            var publishDate = getRandomIndexofArticle.publishedAt || "Not Found";
+                            var link = getRandomIndexofArticle.url || "Not Found";
+                            var content = getRandomIndexofArticle.content || "Not Found";
+                            objectDataNews = {
+                                news_title: title,
+                                news_publish_date: publishDate,
+                                news_link: link,
+                                news_content: content,
+                            };
+                        } else {
+                            objectDataNews = objectDataNewsNull;
+                        }
+                        resolve(objectDataNews);
+                    } catch (error) {
+                        console.error(error);
+                        objectDataNews = objectDataNewsNull;
+                        resolve(objectDataNews);
+                    }
+                });
             });
         });
-    });
-}
+    }
 
     try {
         const weatherData = await fetchWeatherData();
