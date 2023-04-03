@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const https = require("https");
 const port = process.env.PORT || 3000;
-
+const { JSDOM } = require('jsdom');
+const { Readability } = require('@mozilla/readability');
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
@@ -68,40 +69,60 @@ app.post("/", async function (request, response) {
     async function fetchNewsData() {
         return new Promise((resolve, reject) => {
             https.get(options, async function (res2) {
-                statusCode = res2.statusCode;
-                var objectDataNewsNull = {
-                    news_title: "Not Found",
-                    news_publish_date: "Not Found",
-                    news_link: "Not Found",
-                    news_content: "Not Found",
-                }
-                var rawData = '';
-                res2.on("data", function (chunk) {
+                let rawData = '';
+                res2.on('data', function (chunk) {
                     rawData += chunk;
                 });
                 res2.on('end', () => {
                     try {
-                        var newsData = JSON.parse(rawData);
+                        const newsData = JSON.parse(rawData);
                         if (newsData.articles && newsData.articles.length > 0) {
-                            var getRandomIndexofArticle = newsData.articles[0];
-                            var title = getRandomIndexofArticle.title || "Not Found";
-                            var publishDate = getRandomIndexofArticle.publishedAt || "Not Found";
-                            var link = getRandomIndexofArticle.url || "Not Found";
-                            var content = getRandomIndexofArticle.content || "Not Found";
-                            objectDataNews = {
-                                news_title: title,
-                                news_publish_date: publishDate,
-                                news_link: link,
-                                news_content: content,
-                            };
+                            const firstArticleUrl = newsData.articles[0].url;
+                            https.get(firstArticleUrl, function (res3) {
+                                let rawData2 = '';
+                                res3.on('data', function (chunk) {
+                                    rawData2 += chunk;
+                                });
+                                res3.on('end', () => {
+                                    try {
+                                        const dom = new JSDOM(rawData2, {
+                                            url: firstArticleUrl
+                                        });
+                                        const article = new Readability(dom.window.document).parse();
+                                        const content = article ? article.textContent : newsData.articles[0].content;
+                                        resolve({
+                                            news_title: newsData.articles[0].title,
+                                            news_publish_date: newsData.articles[0].publishedAt,
+                                            news_link: newsData.articles[0].url,
+                                            news_content: content
+                                        });
+                                    } catch (error) {
+                                        console.error(error);
+                                        resolve({
+                                            news_title: 'Not Found',
+                                            news_publish_date: 'Not Found',
+                                            news_link: 'Not Found',
+                                            news_content: 'Not Found'
+                                        });
+                                    }
+                                });
+                            });
                         } else {
-                            objectDataNews = objectDataNewsNull;
+                            resolve({
+                                news_title: 'Not Found',
+                                news_publish_date: 'Not Found',
+                                news_link: 'Not Found',
+                                news_content: 'Not Found'
+                            });
                         }
-                        resolve(objectDataNews);
                     } catch (error) {
                         console.error(error);
-                        objectDataNews = objectDataNewsNull;
-                        resolve(objectDataNews);
+                        resolve({
+                            news_title: 'Not Found',
+                            news_publish_date: 'Not Found',
+                            news_link: 'Not Found',
+                            news_content: 'Not Found'
+                        });
                     }
                 });
             });
