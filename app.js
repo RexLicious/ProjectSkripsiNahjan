@@ -22,8 +22,7 @@ app.post("/", async function (request, response) {
     let url = apiEndPoint + apiParam;
 
     let apiKey2 = "229a509634e047fc928cc056b2b7005f";
-    let apiParam2 = `/v2/top-headlines?q=${locName}&apiKey=${apiKey2}`;
-
+    let apiParam2 = `/v2/everything?q=${locName}&apiKey=${apiKey2}`;
     const options = {
         host: "newsapi.org",
         path: apiParam2,
