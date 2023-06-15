@@ -16,14 +16,14 @@ app.get("/", function (request, response) {
 app.post("/", async function (request, response) {
     const userAgent = request.get("user-agent");
     let locName = request.body.locName;
-
+    
     let apiKey = "d3eb955b923603fd7fc18d08bb74afc6";
     let apiEndPoint = "https://api.openweathermap.org/data/2.5/weather";
-    let apiParam = `?q=${locName}&appid=${apiKey}&units=metric`;
+    let apiParam = `?q=${locName.split(" ").join("+")}&appid=${apiKey}&units=metric`;
     let url = apiEndPoint + apiParam;
 
     let apiKey2 = "229a509634e047fc928cc056b2b7005f";
-    let apiParam2 = `/v2/everything?q=${locName}&apiKey=${apiKey2}`;
+    let apiParam2 = `/v2/everything?q=${locName.split(" ").join("+")}&apiKey=${apiKey2}`;
     const options = {
         host: "newsapi.org",
         path: apiParam2,
