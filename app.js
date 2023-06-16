@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const https = require("https");
 const port = process.env.PORT || 3000;
-const { JSDOM } = require('jsdom');
+// const { JSDOM } = require('jsdom');
 const { Readability } = require('@mozilla/readability');
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
@@ -84,33 +84,33 @@ app.post("/", async function (request, response) {
                                     rawData2 += chunk;
                                 });
                                 res3.on('end', () => {
-                                    try {
-                                        const dom = new JSDOM(rawData2, {
-                                            url: firstArticleUrl
-                                        });
-                                        const article = new Readability(dom.window.document).parse();
-                                        const content = article ? article.textContent : newsData.articles[0].content;
-                                        const publishedAt = newsData.articles[0].publishedAt;
-                                        const date = new Date(publishedAt);
+                                    // try {
+                                    //     const dom = new JSDOM(rawData2, {
+                                    //         url: firstArticleUrl
+                                    //     });
+                                    //     const article = new Readability(dom.window.document).parse();
+                                    //     const content = article ? article.textContent : newsData.articles[0].content;
+                                    //     const publishedAt = newsData.articles[0].publishedAt;
+                                    //     const date = new Date(publishedAt);
 
-                                        const year = date.getFullYear();
-                                        const month = String(date.getMonth() + 1).padStart(2, "0"); 
-                                        const day = String(date.getDate()).padStart(2, "0");
-                                        resolve({
-                                            news_title: newsData.articles[0].title,
-                                            news_publish_date: `${day}-${month}-${year}`,
-                                            news_link: newsData.articles[0].url,
-                                            news_content: content
-                                        });
-                                    } catch (error) {
-                                        console.error(error);
-                                        resolve({
-                                            news_title: 'Not Found',
-                                            news_publish_date: 'Not Found',
-                                            news_link: 'Not Found',
-                                            news_content: 'Not Found'
-                                        });
-                                    }
+                                    //     const year = date.getFullYear();
+                                    //     const month = String(date.getMonth() + 1).padStart(2, "0"); 
+                                    //     const day = String(date.getDate()).padStart(2, "0");
+                                    //     resolve({
+                                    //         news_title: newsData.articles[0].title,
+                                    //         news_publish_date: `${day}-${month}-${year}`,
+                                    //         news_link: newsData.articles[0].url,
+                                    //         news_content: content
+                                    //     });
+                                    // } catch (error) {
+                                    //     console.error(error);
+                                    //     resolve({
+                                    //         news_title: 'Not Found',
+                                    //         news_publish_date: 'Not Found',
+                                    //         news_link: 'Not Found',
+                                    //         news_content: 'Not Found'
+                                    //     });
+                                    // }
                                 });
                             });
                         } else {
