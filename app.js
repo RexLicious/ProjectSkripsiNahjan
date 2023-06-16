@@ -3,7 +3,7 @@ const app = express();
 const https = require("https");
 const port = process.env.PORT || 3000;
 // const { JSDOM } = require('jsdom');
-const { Readability } = require('@mozilla/readability');
+// const { Readability } = require('@mozilla/readability');
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
