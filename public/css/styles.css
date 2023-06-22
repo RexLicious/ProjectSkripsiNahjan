@@ -57,7 +57,7 @@ body{
 .btn:hover{
     color: white;
     background-color: rgb(255, 227, 70);
-    border-color: rgb(255, 227, 70);
+    border-color: #ffe346;
 }
 
 /* Form Text */
