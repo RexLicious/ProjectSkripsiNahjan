@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@mozilla/readability": "^0.4.4",
     "express": "^4.18.2",
+    "jsdom": "^22.1.0",
     "pug": "^3.0.2"
   }
 }
